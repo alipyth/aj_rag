@@ -57,7 +57,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
                file: selectedFile || undefined
            });
         }
-        resetForm();
+        closeForm();
     } catch (error) {
         console.error("Error saving document:", error);
         // We rely on App.tsx to show global error, but we stop loading here
@@ -75,14 +75,23 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
       }
   };
 
-  const resetForm = () => {
+  const clearInputs = () => {
     setNewTitle('');
     setNewContent('');
     setSelectedFile(null);
-    setIsAdding(false);
     setEditingId(null);
     setIsSaving(false);
     if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const closeForm = () => {
+      clearInputs();
+      setIsAdding(false);
+  };
+
+  const openForm = () => {
+      clearInputs();
+      setIsAdding(true);
   };
 
   const filteredDocs = documents.filter(d => 
@@ -107,7 +116,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
           </div>
         </div>
         {!isAdding && (
-           <Button onClick={() => { setIsAdding(true); setEditingId(null); resetForm(); }} size="sm">
+           <Button onClick={openForm} size="sm">
              <Plus className="w-4 h-4 ml-2" />
              افزودن داده
            </Button>
@@ -196,7 +205,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
               />
 
               <div className="flex gap-3 justify-end pt-2">
-                <Button variant="ghost" onClick={resetForm} size="sm" disabled={isSaving}>انصراف</Button>
+                <Button variant="ghost" onClick={closeForm} size="sm" disabled={isSaving}>انصراف</Button>
                 <Button 
                     onClick={handleSave} 
                     size="sm" 
@@ -300,7 +309,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
               </div>
               <h3 className="text-lg font-medium text-slate-300 mb-1">ایندکس خالی است</h3>
               <p className="text-sm mb-6 max-w-sm mx-auto">برای ساخت پایگاه دانش خود، فایل‌های PDF یا متنی را بارگذاری کنید.</p>
-              <Button variant="secondary" onClick={() => setIsAdding(true)}>
+              <Button variant="secondary" onClick={openForm}>
                 <Plus className="w-4 h-4 ml-2" />
                 افزودن اولین سند
               </Button>
