@@ -1,0 +1,5 @@
+{
+  "name": "Nexus RAG",
+  "description": "A modern, interactive Retrieval-Augmented Generation (RAG) system supporting OpenAI, OpenRouter, and Ollama. Manage knowledge bases and chat with your data.",
+  "requestFramePermissions": []
+}
